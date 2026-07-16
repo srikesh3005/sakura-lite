@@ -22,7 +22,10 @@ class Settings(BaseSettings):
     LLM_PROVIDER: str = "nvidia"
     LLM_MODEL: str = "meta/llama-3.3-70b-instruct"
 
-    NVIDIA_API_KEY: str
+    OPENROUTER_API_KEY: str = "" 
+    OPENROUTER_BASE_URL: str = "https://openrouter.ai/api/v1"
+
+    NVIDIA_API_KEY: str = ""
     NVIDIA_BASE_URL: str = "https://integrate.api.nvidia.com/v1"
 
     # Logging
