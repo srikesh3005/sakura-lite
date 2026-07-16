@@ -1,4 +1,4 @@
-from openai import OpenAI
+from openai import AsyncOpenAI
 
 from app.core.config import settings
 from app.llm.base import BaseLLMProvider
@@ -9,7 +9,7 @@ class OpenRouterProvider(BaseLLMProvider):
     """OPENROUTER LLM Provider."""
 
     def __init__(self):
-        self.client = OpenAI(
+        self.client = AsyncOpenAI(
         base_url=settings.OPENROUTER_BASE_URL,
         api_key=settings.OPENROUTER_API_KEY,
         )
@@ -34,7 +34,7 @@ class OpenRouterProvider(BaseLLMProvider):
     ) -> LLMResponse:
         """Generate a chat completion."""
 
-        response = self.client.chat.completions.create(
+        response = await self.client.chat.completions.create(
             model=settings.LLM_MODEL,
             messages=self._to_openai_messages(messages),
             temperature=0.7,
@@ -62,14 +62,14 @@ class OpenRouterProvider(BaseLLMProvider):
     ):
         """Stream chat completion."""
 
-        stream = self.client.chat.completions.create(
+        stream = await self.client.chat.completions.create(
             model=settings.LLM_MODEL,
             messages=self._to_openai_messages(messages),
             temperature=0.7,
             stream=True,
         )
 
-        for chunk in stream:
+        async for chunk in stream:
             if not chunk.choices:
                 continue
 

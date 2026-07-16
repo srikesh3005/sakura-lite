@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from app.core.dependencies import get_chat_service
 from app.llm.service import LLMService
 from app.schemas.chat import ChatRequest, ChatResponse
-from backend.app.chat.service import ChatService
+from app.chat.service import ChatService
 
 router = APIRouter(prefix="/chat", tags=["Chat"])
 
