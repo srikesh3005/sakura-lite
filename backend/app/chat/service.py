@@ -1,11 +1,16 @@
 from app.conversation.service import ConversationService
 from app.llm.service import LLMService
 from app.conversation.repository import ConversationRepository
+from app.core.container import conversation_repository
 
 class ChatService:
-    def __init__(self):
-        self.conversation_service = ConversationService(ConversationRepository())
-        self.llm_service = LLMService()
+    def __init__(
+        self,
+        conversation_service: ConversationService,
+        llm_service: LLMService,
+    ):
+        self.conversation_service = conversation_service
+        self.llm_service = llm_service
 
     async def chat(
         self,
