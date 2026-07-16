@@ -2,15 +2,18 @@ from fastapi import APIRouter
 
 from app.llm.service import LLMService
 from app.schemas.chat import ChatRequest, ChatResponse
+from backend.app.chat.service import ChatService
 
 router = APIRouter(prefix="/chat", tags=["Chat"])
 
 @router.post("/", response_model=ChatResponse)
 async def chat(request: ChatRequest):
-    llm = LLMService()
 
-    response = await llm.chat(request.messages)
+    chat_service = ChatService()
 
-    return ChatResponse(
-        response=response.content
+    result = await chat_service.chat(
+        conversation_id=request.conversation_id,
+        message=request.message,
     )
+
+    return result

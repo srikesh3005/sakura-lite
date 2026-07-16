@@ -5,8 +5,8 @@ from app.llm.base import BaseLLMProvider
 from app.llm.models import LLMMessage, LLMResponse, TokenUsage
 
 
-class NvidiaProvider(BaseLLMProvider):
-    """NVIDIA LLM Provider."""
+class OpenRouterProvider(BaseLLMProvider):
+    """OPENROUTER LLM Provider."""
 
     def __init__(self):
         self.client = OpenAI(
