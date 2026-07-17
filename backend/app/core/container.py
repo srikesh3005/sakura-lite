@@ -1,3 +1,32 @@
-from app.conversation.repository import ConversationRepository
+from functools import lru_cache
 
-conversation_repository = ConversationRepository()
+from app.chat.service import ChatService
+from app.llm.service import LLMService
+from app.conversation.service import ConversationService
+from app.conversation.in_memory_repository import (
+    InMemoryConversationRepository,
+)
+
+
+@lru_cache
+def get_conversation_repository():
+    return InMemoryConversationRepository()
+
+
+@lru_cache
+def get_conversation_service():
+    return ConversationService(
+        repository=get_conversation_repository()
+    )
+
+
+@lru_cache
+def get_llm_service():
+    return LLMService()
+
+
+def get_chat_service():
+    return ChatService(
+        conversation_service=get_conversation_service(),
+        llm_service=get_llm_service(),
+    )

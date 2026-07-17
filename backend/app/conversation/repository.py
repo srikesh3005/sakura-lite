@@ -1,17 +1,27 @@
+from abc import ABC, abstractmethod
+
 from app.conversation.models import Conversation
 
 
-class ConversationRepository:
-    """In-memory repository for conversations."""
+class ConversationRepository(ABC):
 
-    def __init__(self):
-        self._conversations: dict[str, Conversation] = {}
+    @abstractmethod
+    def get(
+        self,
+        conversation_id: str,
+    ) -> Conversation | None:
+        ...
 
-    def get(self, conversation_id: str) -> Conversation | None:
-        return self._conversations.get(conversation_id)
+    @abstractmethod
+    def save(
+        self,
+        conversation: Conversation,
+    ) -> None:
+        ...
 
-    def save(self, conversation: Conversation) -> None:
-        self._conversations[conversation.id] = conversation
-
-    def exists(self, conversation_id: str) -> bool:
-        return conversation_id in self._conversations
+    @abstractmethod
+    def exists(
+        self,
+        conversation_id: str,
+    ) -> bool:
+        ...

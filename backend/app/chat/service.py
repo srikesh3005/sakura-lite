@@ -1,7 +1,7 @@
 from app.conversation.service import ConversationService
 from app.llm.service import LLMService
-from app.conversation.repository import ConversationRepository
-from app.core.container import conversation_repository
+from app.prompt.builder import PromptBuilder
+
 
 class ChatService:
     def __init__(
@@ -30,7 +30,9 @@ class ChatService:
         conversation.add_user_message(message)
 
         # Call the LLM
-        response = await self.llm_service.chat(conversation.messages)
+        messages = PromptBuilder.build(conversation)
+
+        response = await self.llm_service.chat(messages)
 
         # Save assistant response
         conversation.add_assistant_message(response.content)
